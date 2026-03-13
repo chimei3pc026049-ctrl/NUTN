@@ -16,6 +16,17 @@
         .animate-fade-in {
             animation: fadeIn 0.4s ease-out forwards;
         }
+        /* 新增：漂浮動畫 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+            animation: float 5s ease-in-out infinite 2s;
+        }
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
@@ -28,21 +39,30 @@
 <body class="min-h-screen bg-slate-50 font-sans text-slate-800">
 
     <!-- Hero Header -->
-    <header class="relative w-full h-64 md:h-80 overflow-hidden shadow-lg">
-        <div class="absolute inset-0">
-            <img 
-                src="https://images.unsplash.com/photo-1523580494112-071d384e236c?auto=format&fit=crop&q=80&w=2000" 
-                alt="Graduation Celebration" 
-                class="w-full h-full object-cover"
-            />
-            <div class="absolute inset-0 bg-slate-900/70 mix-blend-multiply"></div>
+    <header class="relative w-full h-64 md:h-80 overflow-hidden shadow-lg bg-slate-900">
+        <!-- 1. 科技網格背景 -->
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(56,189,248,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(56,189,248,0.07)_1px,transparent_1px)] bg-[size:30px_30px]"></div>
+        
+        <!-- 2. 科技感光暈渲染 -->
+        <div class="absolute top-[-20%] left-[-10%] w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-[-20%] right-[-10%] w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- 3. 動態漂浮科技圖示 -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-40 z-0">
+            <i data-lucide="cpu" class="absolute top-10 left-[10%] w-10 h-10 text-cyan-400 animate-float"></i>
+            <i data-lucide="network" class="absolute bottom-12 right-[15%] w-12 h-12 text-blue-400 animate-float-delayed"></i>
+            <i data-lucide="database" class="absolute top-16 right-[25%] w-8 h-8 text-amber-400 animate-pulse" style="animation-duration: 3s;"></i>
+            <i data-lucide="code" class="absolute bottom-16 left-[20%] w-12 h-12 text-emerald-400 animate-float-delayed"></i>
+            <i data-lucide="terminal-square" class="absolute top-1/2 right-[8%] w-10 h-10 text-purple-400 animate-float"></i>
+            <i data-lucide="binary" class="absolute top-[40%] left-[5%] w-14 h-14 text-slate-500 animate-pulse" style="animation-duration: 4s;"></i>
         </div>
+
         <div class="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-            <i data-lucide="graduation-cap" class="w-16 h-16 text-amber-400 mb-4"></i>
-            <h1 class="text-3xl md:text-5xl font-bold text-white mb-2 tracking-wider">
+            <i data-lucide="graduation-cap" class="w-16 h-16 text-amber-400 mb-4 animate-float"></i>
+            <h1 class="text-3xl md:text-5xl font-bold text-white mb-2 tracking-wider drop-shadow-lg">
                 臺南大學經管系科技管理送舊餐會暨謝師宴
             </h1>
-            <p class="text-amber-200 text-lg md:text-xl font-medium mt-2">
+            <p class="text-amber-200 text-lg md:text-xl font-medium mt-2 drop-shadow-md">
                 薪火相傳 • 感念師恩
             </p>
         </div>
@@ -236,12 +256,22 @@
                     <h2 class="text-2xl font-bold text-slate-800 flex items-center justify-center mb-2">
                         <i data-lucide="clipboard-list" class="text-amber-500 mr-2"></i> 出席意願回覆
                     </h2>
-                    <p class="text-slate-600">
+                    <p class="text-slate-600 mb-6">
                         誠摯邀請師長與學長姐們填寫以下表單，以便我們為您安排專屬座位與餐點。
                     </p>
+
+                    <!-- 新增：引導按鈕，當瀏覽器阻擋 iframe 時可以直接另開視窗 -->
+                    <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=gQbeJPfI6EaNpx9bOT2DTY5ys0TxUgBComrGXxT4XvpUNUpQVUkwWE9BRkQxUFhJUTFITFQ5VDZDVC4u" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="inline-flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 mb-6 group">
+                        <i data-lucide="external-link" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                        <span>點此另開視窗填寫表單</span>
+                    </a>
+                    <p class="text-xs text-slate-400 mb-6">（若下方未顯示表單內容，請點擊上方按鈕前往）</p>
                 </div>
                 
-                <div class="w-full flex justify-center bg-slate-50 p-2 md:p-6 rounded-xl border border-slate-200 shadow-inner">
+                <div class="w-full flex justify-center bg-slate-50 p-2 md:p-6 rounded-xl border border-slate-200 shadow-inner relative">
                     <!-- 嵌入的 Microsoft Forms -->
                     <iframe 
                         width="100%" 
